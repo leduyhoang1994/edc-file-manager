@@ -1,0 +1,16 @@
+{
+  "name": "hoangld2/edc-file-mamager",
+  "description": "File Management package for Educa dev team",
+  "version": "1.0.0",
+  "type": "library",
+  "license": "GPL-3.0-only",
+  "authors": [
+    {
+      "name": "Hoang Beat",
+      "email": "hoangld2@educa.vn"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  }
+}
