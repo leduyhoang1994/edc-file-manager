@@ -10,6 +10,11 @@
       "email": "hoangld2@educa.vn"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "EdcCommon\\ResourceManager\\": "src"
+    }
+  },
   "require": {
     "php": ">=7.4",
     "vlucas/phpdotenv": "^5.4"
