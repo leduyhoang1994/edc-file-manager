@@ -1,6 +1,6 @@
 <?php
 
-namespace EdcCommon\FileManager\Services\Contracts;
+namespace EdcCommon\ResourceManager\Services\Contracts;
 
 interface FileServiceInterface
 {

@@ -1,9 +1,9 @@
 <?php
-namespace EdcCommon\FileManager;
+namespace EdcCommon\ResourceManager;
 
-use EdcCommon\FileManager\Services\Contracts\FileServiceInterface;
+use EdcCommon\ResourceManager\Services\Contracts\FileServiceInterface;
 
-class FileManager
+class ResourceManager
 {
     public static function getService()
     {
