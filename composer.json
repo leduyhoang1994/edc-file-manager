@@ -1,5 +1,5 @@
 {
-  "name": "dungchung/edc-file-manager",
+  "name": "edc-common/resource-manager",
   "description": "File Management package for Educa dev team",
   "version": "1.0.0",
   "type": "library",
