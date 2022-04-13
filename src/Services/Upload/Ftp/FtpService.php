@@ -31,7 +31,7 @@ class FtpService extends UploadServiceAbstract
         $this->authPassword = $this->ftpConfig['password'];
     }
 
-    public function connect() : bool
+    public function connect()
     {
         if (!$this->server || !$this->authUsername || !$this->authPassword) {
             throw new ResourceManagerException('server, authUsername, authPassword must be set.');
@@ -69,7 +69,7 @@ class FtpService extends UploadServiceAbstract
     /**
      * @param $path
      * @return bool
-     * @throws FileServiceException
+     * @throws ResourceManagerException
      */
     public function mkdirRecursive($path)
     {
@@ -178,7 +178,7 @@ class FtpService extends UploadServiceAbstract
 
     /**
      * @param UploadResource $resource
-     * @return void
+     * @return mixed
      */
     protected function uploadResource($resource)
     {
@@ -198,7 +198,7 @@ class FtpService extends UploadServiceAbstract
 
     /**
      * @param UploadResource $resource
-     * @return void
+     * @return mixed
      */
     protected function uploadIcon($resource)
     {
@@ -219,6 +219,7 @@ class FtpService extends UploadServiceAbstract
      * @param \SplFileObject $localFile
      * @param $path
      * @param $fileName
+     * @throws
      * @return mixed|string
      */
     public function storeFile($localFile, $path, $fileName)
@@ -242,7 +243,7 @@ class FtpService extends UploadServiceAbstract
 
         if ($uploadProgress !== FTP_FINISHED) {
             $this->closeConnection();
-            throw new FileServiceException('There was an error while uploading file');
+            throw new ResourceManagerException('There was an error while uploading file');
         }
 
         $this->closeConnection();

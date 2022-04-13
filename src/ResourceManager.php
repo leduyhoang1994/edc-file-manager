@@ -48,7 +48,7 @@ class ResourceManager
     /**
      * @return mixed|null
      */
-    public function getConfigPath(): mixed
+    public function getConfigPath()
     {
         return $this->configPath;
     }
@@ -56,7 +56,7 @@ class ResourceManager
     /**
      * @param mixed|null $configPath
      */
-    public function setConfigPath(mixed $configPath): void
+    public function setConfigPath($configPath): void
     {
         $this->configPath = $configPath;
     }
@@ -147,6 +147,6 @@ class ResourceManager
         $uploadResource = $this->uploadService->upload($uploadResource);
         $uploadResource = $this->storeService->store($uploadResource);
 
-        dd($uploadResource);
+        return $uploadResource;
     }
 }

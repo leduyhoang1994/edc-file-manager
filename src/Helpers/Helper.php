@@ -40,19 +40,9 @@ class Helper
         return preg_replace('/[^A-Za-z0-9\-\.]/', '', $string); // Removes special chars.
     }
 
-    public static function getFileStatic($link): string
-    {
-        return config('app.static_url'). $link;
-    }
-
     public static function makeUrl($baseUrl, ...$args)
     {
         return $baseUrl . self::makePath(...$args);
-    }
-
-    public static function makeResourceUrl($path, $root)
-    {
-        return self::makeUrl(config('cdn.domain'), $root, $path);
     }
 
     public static function makePath(...$args)

@@ -94,7 +94,7 @@ class UploadResource
         $type = strtolower($type);
         $fileType = $this->$fieldType;
 
-        return str_starts_with($fieldType, $type . '/');
+        return substr( $fieldType, 0, 4 ) === $type . '/';
     }
 
     public function validateCreate()
@@ -118,8 +118,6 @@ class UploadResource
 
         return filesize($resourceFile) == filesize($iconUpload) && md5_file($resourceFile) == md5_file($iconUpload);
     }
-
-
 
     public function toArray()
     {
@@ -217,7 +215,7 @@ class UploadResource
     /**
      * @param mixed $filePath
      */
-    public function setFilePath($filePath): void
+    public function setFilePath($filePath)
     {
         $this->filePath = $filePath;
     }
@@ -225,7 +223,7 @@ class UploadResource
     /**
      * @param mixed $iconFilePath
      */
-    public function setIconFilePath($iconFilePath): void
+    public function setIconFilePath($iconFilePath)
     {
         $this->iconFilePath = $iconFilePath;
     }
