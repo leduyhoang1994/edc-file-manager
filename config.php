@@ -5,13 +5,23 @@ return [
     'base_url' => 'localhost',
 
     // File manager method
-    'method' => 'ftp',
+    'upload_method' => \EdcCommon\ResourceManager\ResourceManager::UPLOAD_METHOD_FTP,
 
-    // Ftp config
-    'ftp' => [
+    // Store method
+    'store_method' => \EdcCommon\ResourceManager\ResourceManager::STORE_METHOD_API,
+
+    // Ftp upload config
+    'ftp_upload' => [
         'host' => 'localhost',
         'port' => 21,
         'username' => 'username',
         'password' => 'password'
+    ],
+
+    // API store config
+    'api_store' => [
+        'host' => 'localhost',
+        'secret_token' => 'xxx',
+        'path' => 'api/file'
     ],
 ];
