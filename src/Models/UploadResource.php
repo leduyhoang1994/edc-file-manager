@@ -34,42 +34,23 @@ class UploadResource
      * @param \SplFileObject $file
      * @param $name
      * @param $type
-     * @param \SplFileObject $iconFile
+     * @param \SplFileObject|null $iconFile
      */
-    public function __construct($file, $name, $type, $iconFile = null)
+    public function __construct($file, $name, $type, $iconFile = null, $iconFileName = '')
     {
         $this->name = $name;
+        $this->fileName = $name;
         $this->type = $type;
-        $this->loadFile($file, 'file');
+        $this->fileType = $type;
 
-        if ($iconFile) {
-            $this->loadFile($iconFile, 'iconFile');
-        }
-    }
+        $this->iconFileName = $iconFileName;
+        $this->iconFileType = ResourceManager::TYPE_IMAGE;
 
-    /**
-     * @param \SplFileObject $file
-     * @return void
-     */
-    protected function loadFile($file, $field)
-    {
-        $uploadFile = null;
-
-        if (count($_FILES)) {
-            foreach ($_FILES as $key => $f) {
-                if ($f['tmp_name'] == $file->getRealPath()) {
-                    $uploadFile = $f;
-                    break;
-                }
-            }
-        }
-
-        $fieldName = $field.'Name';
-        $fieldType = $field.'Type';
-
-        $this->$field = $file;
-        $this->$fieldName = $uploadFile ? $uploadFile['name'] : $file->getFilename();
-        $this->$fieldType = $uploadFile ? $uploadFile['type'] : $file->getType();
+//        $this->loadFile($file, 'file');
+//
+//        if ($iconFile) {
+//            $this->loadFile($iconFile, 'iconFile');
+//        }
     }
 
     protected function defaultValidate()
