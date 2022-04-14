@@ -6,7 +6,6 @@ use EdcCommon\ResourceManager\Models\UploadResource;
 use EdcCommon\ResourceManager\Services\Store\Api\ApiService;
 use EdcCommon\ResourceManager\Services\Store\Contracts\StoreServiceInterface;
 use EdcCommon\ResourceManager\Services\Upload\Ftp\FtpService;
-use EdcCommon\ResourceManager\Services\Contracts\FileServiceInterface;
 use EdcCommon\ResourceManager\Services\Upload\Contracts\UploadServiceInterface;
 
 class ResourceManager
@@ -56,7 +55,7 @@ class ResourceManager
     /**
      * @param mixed|null $configPath
      */
-    public function setConfigPath($configPath): void
+    public function setConfigPath($configPath)
     {
         $this->configPath = $configPath;
     }
@@ -109,7 +108,6 @@ class ResourceManager
     }
 
     /**
-     * @param $configPath
      * @return StoreServiceInterface
      */
     protected function getStoreService()

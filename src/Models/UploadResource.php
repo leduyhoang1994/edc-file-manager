@@ -151,7 +151,7 @@ class UploadResource
     /**
      * @return \SplFileObject
      */
-    public function getFile(): \SplFileObject
+    public function getFile()
     {
         return $this->file;
     }
@@ -175,7 +175,7 @@ class UploadResource
     /**
      * @return \SplFileObject
      */
-    public function getIconFile(): \SplFileObject
+    public function getIconFile()
     {
         return $this->iconFile;
     }
