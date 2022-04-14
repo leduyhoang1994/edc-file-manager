@@ -48,8 +48,9 @@ class ApiService extends \EdcCommon\ResourceManager\Services\Store\Contracts\Sto
     {
         $data = $uploadResource->toArray();
         $client = $this->initClient();
+        $url = $this->storeUrl . '?static_domain=' . $this->config['static_domain'];
 
-        curl_setopt($client, CURLOPT_URL, $this->storeUrl);
+        curl_setopt($client, CURLOPT_URL, $url);
         curl_setopt($client, CURLOPT_POST, 1);
         curl_setopt($client, CURLOPT_POSTFIELDS, $data);
 
@@ -57,6 +58,6 @@ class ApiService extends \EdcCommon\ResourceManager\Services\Store\Contracts\Sto
 
         curl_close ($client);
 
-        dd(json_decode($response));
+        return json_decode($response, true);
     }
 }
