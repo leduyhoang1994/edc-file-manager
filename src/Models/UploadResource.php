@@ -40,9 +40,11 @@ class UploadResource
     {
         $this->name = $name;
         $this->fileName = $name;
+        $this->file = $file;
         $this->type = $type;
         $this->fileType = $type;
 
+        $this->iconFile = $iconFile;
         $this->iconFileName = $iconFileName;
         $this->iconFileType = ResourceManager::TYPE_IMAGE;
 
