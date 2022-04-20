@@ -68,7 +68,7 @@ class ResourceManager
 
     public function boot()
     {
-        $config = $baseConfig = include __DIR__ . '\..\config.php';
+        $config = $baseConfig = include __DIR__ . '/../config.php';
         $configPath = $this->getConfigPath();
 
         if ($configPath && is_string($configPath) && is_file($configPath)) {
@@ -86,6 +86,7 @@ class ResourceManager
         }
 
         $this->config = $config;
+
         $this->uploadService = $this->getUploadService();
         $this->storeService = $this->getStoreService();
     }
@@ -142,7 +143,7 @@ class ResourceManager
     {
         $uploadResource->validateCreate();
 
-        $uploadResource = $this->uploadService->upload($uploadResource);
+//        $uploadResource = $this->uploadService->upload($uploadResource);
         $uploadResource = $this->storeService->store($uploadResource);
 
         return $uploadResource;
