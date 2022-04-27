@@ -106,9 +106,10 @@ class UploadResource
     {
         return [
             'name' => $this->name,
+            'icon_file_name' => $this->iconFileName,
             'type' => $this->type,
-            'file_path' => curl_file_create($this->file->getRealPath()),
-            'icon_file_path' => $this->iconFile ? curl_file_create($this->iconFile->getRealPath()) : null,
+            'file_path' => curl_file_create($this->file->getRealPath(), '', $this->name),
+            'icon_file_path' => $this->iconFile ? curl_file_create($this->iconFile->getRealPath(), '', $this->iconFileName) : null,
             'description' => $this->description,
             'is_active' => $this->isActive,
             'num_repeat' => $this->num_repeat
