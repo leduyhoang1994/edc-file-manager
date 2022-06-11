@@ -2,9 +2,11 @@
 namespace EdcCommon\ResourceManager;
 
 use EdcCommon\ResourceManager\Exceptions\ResourceManagerException;
+use EdcCommon\ResourceManager\Models\Config;
 use EdcCommon\ResourceManager\Models\UploadResource;
 use EdcCommon\ResourceManager\Services\Store\Api\ApiService;
 use EdcCommon\ResourceManager\Services\Store\Contracts\StoreServiceInterface;
+use EdcCommon\ResourceManager\Services\Upload\AWS\AwsService;
 use EdcCommon\ResourceManager\Services\Upload\Ftp\FtpService;
 use EdcCommon\ResourceManager\Services\Upload\Contracts\UploadServiceInterface;
 
@@ -25,9 +27,13 @@ class ResourceManager
     ];
 
     const UPLOAD_METHOD_FTP = 'ftp';
+    const UPLOAD_METHOD_AWS = 'aws';
+    const UPLOAD_METHOD_API = 'api';
 
     const UPLOAD_METHODS = [
         self::UPLOAD_METHOD_FTP,
+        self::UPLOAD_METHOD_AWS,
+        self::UPLOAD_METHOD_API,
     ];
 
     const STORE_METHOD_API = 'api';
@@ -42,6 +48,7 @@ class ResourceManager
     protected $storeService;
 
     protected $configPath;
+    /** @var Config */
     protected $config;
 
     /**
@@ -68,24 +75,7 @@ class ResourceManager
 
     public function boot()
     {
-        $config = $baseConfig = include __DIR__ . '/../config.php';
-        $configPath = $this->getConfigPath();
-
-        if ($configPath && is_string($configPath) && is_file($configPath)) {
-            $newConfig = include $configPath;
-
-            if (!is_array($newConfig)) {
-                $newConfig = [];
-            }
-
-            $config = array_replace_recursive($baseConfig, $newConfig);
-        }
-
-        if ($configPath && is_array($configPath)) {
-            $config = array_replace_recursive($baseConfig, $configPath);
-        }
-
-        $this->config = $config;
+        $this->config = new Config($this->getConfigPath());
 
         $this->uploadService = $this->getUploadService();
         $this->storeService = $this->getStoreService();
@@ -98,11 +88,15 @@ class ResourceManager
     {
         $config = $this->config;
 
-        $method = $config['upload_method'];
+        $method = $config->getUploadMethod();
 
         switch ($method) {
             case self::UPLOAD_METHOD_FTP :
                 return new FtpService($config);
+            case self::UPLOAD_METHOD_AWS :
+                return new AwsService($config);
+            case self::UPLOAD_METHOD_API :
+                return null;
         }
 
         return new FtpService($config);
@@ -115,7 +109,7 @@ class ResourceManager
     {
         $config = $this->config;
 
-        $method = $config['store_method'];
+        $method = $config->getStoreMethod();
 
         switch ($method) {
             case self::STORE_METHOD_API :
@@ -123,16 +117,6 @@ class ResourceManager
         }
 
         return new ApiService($config);
-    }
-
-    public function setUploadMethod($method)
-    {
-        if (!in_array($method, self::UPLOAD_METHODS)) {
-            throw new ResourceManagerException('Upload method not support');
-        }
-
-        $this->config['upload_method'] = $method;
-        $this->uploadService = $this->getUploadService();
     }
 
     /**
@@ -143,7 +127,9 @@ class ResourceManager
     {
         $uploadResource->validateCreate();
 
-//        $uploadResource = $this->uploadService->upload($uploadResource);
+        if ($this->uploadService) {
+            $uploadResource = $this->uploadService->upload($uploadResource);
+        }
         $uploadResource = $this->storeService->store($uploadResource);
 
         return $uploadResource;

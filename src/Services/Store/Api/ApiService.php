@@ -2,6 +2,8 @@
 
 namespace EdcCommon\ResourceManager\Services\Store\Api;
 
+use EdcCommon\ResourceManager\Models\Config;
+
 class ApiService extends \EdcCommon\ResourceManager\Services\Store\Contracts\StoreServiceAbstract
 {
     protected $apiConfig;
@@ -13,10 +15,13 @@ class ApiService extends \EdcCommon\ResourceManager\Services\Store\Contracts\Sto
 
     protected $client;
 
+    /**
+     * @param Config $config
+     */
     public function __construct($config)
     {
         parent::__construct($config);
-        $this->apiConfig = $config['api_store'];
+        $this->apiConfig = $config->getApiStore();
 
         $this->host = $this->apiConfig['host'];
         $this->secret = $this->apiConfig['secret_token'];
@@ -48,7 +53,7 @@ class ApiService extends \EdcCommon\ResourceManager\Services\Store\Contracts\Sto
     {
         $data = $uploadResource->toArray();
         $client = $this->initClient();
-        $url = $this->storeUrl . '?static_domain=' . $this->config['static_domain'];
+        $url = $this->storeUrl . '?static_domain=' . $this->config->get('static_domain');
 
         curl_setopt($client, CURLOPT_URL, $url);
         curl_setopt($client, CURLOPT_POST, 1);

@@ -19,7 +19,8 @@
     "php": ">=7.2",
     "ext-ftp": "*",
     "ext-curl": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "aws/aws-sdk-php": "2.*"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5"

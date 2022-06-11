@@ -6,6 +6,11 @@ return [
     // Static domain for static resource
     'static_domain' => 'localhost',
 
+    'upload_option' => [
+        'root_folder' => '',
+        'use_date_path' => true
+    ],
+
     // File manager method
     'upload_method' => \EdcCommon\ResourceManager\ResourceManager::UPLOAD_METHOD_FTP,
 
@@ -18,6 +23,15 @@ return [
         'port' => 21,
         'username' => 'username',
         'password' => 'password'
+    ],
+
+    // Aws upload config
+    'aws_upload' => [
+        'driver' => 'xxxxxxx',
+        'key'    => 'xxxxxxx',
+        'secret' => 'xxxxxxx',
+        'region' => 'xxxxxxx',
+        'bucket' => 'xxxxxxx',
     ],
 
     // API store config

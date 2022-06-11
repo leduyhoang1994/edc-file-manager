@@ -65,4 +65,48 @@ class Helper
         ini_set('post_max_size', $size);
         ini_set('upload_max_filesize', $size);
     }
+
+    public static function arrGet($arr, $key, $default = null)
+    {
+        if (!is_array($arr)) {
+            return $default;
+        }
+        if (!is_string($key)) {
+            return $default;
+        }
+
+        if (strpos($key, '.') !== false) {
+            return self::arrGetRecursive($arr, $key);
+        }
+
+        if (!array_key_exists($key, $arr)) {
+            return $default;
+        }
+
+        return $arr[$key];
+    }
+
+    private static function arrGetRecursive($arr, $key)
+    {
+        $keys = explode('.', $key);
+        $result = $arr;
+        foreach ($keys as $k) {
+            if (!array_key_exists($k, $result)) {
+                return $result[$k];
+            }
+
+            $result = $result[$k];
+        }
+
+        return $result;
+    }
+
+    public static function arrSet(&$arr, $key, $value)
+    {
+        if (!self::arrGet($arr, $key)) {
+            return;
+        }
+
+        $arr[$key] = $value;
+    }
 }
