@@ -2,6 +2,7 @@
 
 namespace EdcCommon\ResourceManager\Services\Upload\AWS;
 
+use Aws\Credentials\Credentials;
 use Aws\S3\S3Client;
 use EdcCommon\ResourceManager\Exceptions\ResourceManagerException;
 use EdcCommon\ResourceManager\Helpers\Helper;
@@ -33,7 +34,7 @@ class AwsService extends UploadServiceAbstract implements \EdcCommon\ResourceMan
     {
         parent::__construct($config);
         $this->awsConfig = $config->getAwsConfig();
-        $this->credentials = [
+        $credentials = [
             'key'    => Helper::arrGet($this->awsConfig, 'key', ''),
             'secret' => Helper::arrGet($this->awsConfig, 'secret', ''),
             'driver' => Helper::arrGet($this->awsConfig, 'driver', ''),
@@ -41,10 +42,14 @@ class AwsService extends UploadServiceAbstract implements \EdcCommon\ResourceMan
             'bucket' => Helper::arrGet($this->awsConfig, 'bucket', ''),
         ];
 
-        $this->bucket = Helper::arrGet($this->credentials, 'bucket');
-        $this->key = Helper::arrGet($this->credentials, 'key');
+        $this->credentials = new Credentials($credentials['key'], $credentials['secret']);
 
-        $this->client = S3Client::factory([
+        $this->bucket = Helper::arrGet($credentials, 'bucket');
+        $this->key = Helper::arrGet($credentials, 'key');
+
+        $this->client = new S3Client([
+            'version'     => '2006-03-01',
+            'region' => $credentials['region'],
             'credentials' => $this->credentials
         ]);
     }
