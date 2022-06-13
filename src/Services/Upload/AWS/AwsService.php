@@ -63,7 +63,9 @@ class AwsService extends UploadServiceAbstract implements \EdcCommon\ResourceMan
             $root = Helper::makePath($root, $pathByDate);
         }
 
-        return Helper::makePath($root, $fileName);
+        $path = Helper::makePath($root, $fileName);
+
+        return ltrim($path, '/');
     }
 
     private function _uploadIcon($uploadResource)
