@@ -153,8 +153,13 @@ class FtpService extends UploadServiceAbstract
     private function addUniqueToFileName($fileName)
     {
         $exploded = explode('.', $fileName);
-        $exploded[count($exploded) - 2] .= '-' . bin2hex(random_bytes(4));
-        return implode('.', $exploded);
+        if (count($exploded) >= 2) {
+            $exploded[count($exploded) - 2] .= '-' . bin2hex(random_bytes(4));
+            $fileName = implode('.', $exploded);
+        }else {
+            $fileName .= '-' . bin2hex(random_bytes(4));
+        }
+        return $fileName;
     }
 
     /**
