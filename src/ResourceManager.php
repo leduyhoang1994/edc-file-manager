@@ -84,7 +84,7 @@ class ResourceManager
     /**
      * @return UploadServiceInterface
      */
-    protected function getUploadService()
+    public function getUploadService()
     {
         $config = $this->config;
 
@@ -105,7 +105,7 @@ class ResourceManager
     /**
      * @return StoreServiceInterface
      */
-    protected function getStoreService()
+    public function getStoreService()
     {
         $config = $this->config;
 
