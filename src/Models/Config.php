@@ -33,6 +33,11 @@ class Config
         return Helper::arrGet($this->config, 'aws_upload');
     }
 
+    public function getFtpConfig()
+    {
+        return Helper::arrGet($this->config, 'ftp_upload');
+    }
+
     public function getStoreMethod()
     {
         return Helper::arrGet($this->config, 'store_method');

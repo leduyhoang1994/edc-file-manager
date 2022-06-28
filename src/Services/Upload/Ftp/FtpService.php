@@ -23,7 +23,7 @@ class FtpService extends UploadServiceAbstract
     public function __construct($config)
     {
         parent::__construct($config);
-        $this->ftpConfig = $config['ftp_upload'];
+        $this->ftpConfig = $config->getFtpConfig();
 
         $this->server = $this->ftpConfig['host'];
         $this->port = intval($this->ftpConfig['port']);
