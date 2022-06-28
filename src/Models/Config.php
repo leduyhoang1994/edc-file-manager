@@ -65,7 +65,12 @@ class Config
 
     public function useDatePath()
     {
-        return Helper::arrGet($this->config, 'upload_option.root_folder');
+        return Helper::arrGet($this->config, 'upload_option.use_date_path');
+    }
+
+    public function getFtpDomain()
+    {
+        return Helper::arrGet($this->config, 'ftp_upload.domain');
     }
 
     public function get($key)

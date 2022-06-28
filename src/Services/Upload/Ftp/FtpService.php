@@ -75,20 +75,20 @@ class FtpService extends UploadServiceAbstract
     {
         $conn = $this->getConnection();
 
-        $parts = explode("/",$path);
+        $parts = explode("/", $path);
         $fullPath = "";
-        foreach($parts as $part){
-            if(empty($part)){
+        foreach ($parts as $part) {
+            if (empty($part)) {
                 $fullPath .= "/";
                 continue;
             }
-            $fullPath .= $part."/";
-            if(@ftp_chdir($conn, $fullPath)){
+            $fullPath .= $part . "/";
+            if (@ftp_chdir($conn, $fullPath)) {
                 ftp_chdir($conn, $fullPath);
-            }else{
-                if(@ftp_mkdir($conn, $part)){
+            } else {
+                if (@ftp_mkdir($conn, $part)) {
                     ftp_chdir($conn, $part);
-                }else{
+                } else {
                     $this->closeConnection();
                     throw new ResourceManagerException('Unable to create directory');
                 }
@@ -129,14 +129,16 @@ class FtpService extends UploadServiceAbstract
 
     private function generatePath($fileName, $type, $detail = false)
     {
-        $pathByTime = date('Y') . '/' . date('m') . '/' . date('d') . "/";
+        $pathByTime =
+            $this->config->useDatePath() ?
+                date('Y') . '/' . date('m') . '/' . date('d') . "/" : "";
         $relativePath = Helper::makePath(
+            $this->config->getRootFolder(),
             $this->getFolderByType($type),
             $pathByTime
         );
 
         $uploadPath = Helper::makePath(
-            self::UPLOAD_ROOT,
             $relativePath
         );
 
@@ -156,7 +158,7 @@ class FtpService extends UploadServiceAbstract
         if (count($exploded) >= 2) {
             $exploded[count($exploded) - 2] .= '-' . bin2hex(random_bytes(4));
             $fileName = implode('.', $exploded);
-        }else {
+        } else {
             $fileName .= '-' . bin2hex(random_bytes(4));
         }
         return $fileName;
@@ -168,15 +170,16 @@ class FtpService extends UploadServiceAbstract
     public function upload($resource)
     {
         $resourcePath = $this->uploadResource($resource);
-        $resource->setFilePath($resourcePath);
 
         if ($resource->getIconFile()) {
             if ($resource->isSameFile()) {
-                $resource->setIconFilePath($resourcePath);
+                $resource->setFile($resourcePath);
             } else {
-                $resource->setIconFilePath($this->uploadIcon($resource));
+                $resource->setFile($this->uploadIcon($resource));
             }
         }
+
+        $resource->setFile($resourcePath);
 
         return $resource;
     }
@@ -198,7 +201,7 @@ class FtpService extends UploadServiceAbstract
         extract($pathDetail);
 
         $uploadedFileName = $this->storeFile($resource->getFile(), $uploadPath, $fileNameSlug);
-        return Helper::makePath($relativePath, $uploadedFileName);
+        return Helper::makeUrl($this->config->getFtpDomain(), $relativePath, $uploadedFileName);
     }
 
     /**
@@ -217,15 +220,15 @@ class FtpService extends UploadServiceAbstract
          */
         extract($pathDetail);
         $uploadedFileName = $this->storeFile($resource->getIconFile(), $uploadPath, $fileNameSlug);
-        return Helper::makePath($relativePath, $uploadedFileName);
+        return Helper::makeUrl($this->config->getFtpDomain(), $relativePath, $uploadedFileName);
     }
 
     /**
      * @param \SplFileObject $localFile
      * @param $path
      * @param $fileName
-     * @throws
      * @return mixed|string
+     * @throws
      */
     public function storeFile($localFile, $path, $fileName)
     {

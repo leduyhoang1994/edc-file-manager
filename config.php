@@ -21,6 +21,7 @@ return [
     'ftp_upload' => [
         'host' => 'localhost',
         'port' => 21,
+        'domain'   => 'https://static.edupia.edu.vn',
         'username' => 'username',
         'password' => 'password'
     ],

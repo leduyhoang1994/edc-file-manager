@@ -21,10 +21,10 @@ class UploadTest extends \PHPUnit\Framework\TestCase
             'url' => '',
             'token' => '',
             'static_domain' => 'https://static.edupia.edu.vn',
-            'upload_method' => \EdcCommon\ResourceManager\ResourceManager::UPLOAD_METHOD_AWS,
+            'upload_method' => \EdcCommon\ResourceManager\ResourceManager::UPLOAD_METHOD_FTP,
             'upload_option' => [
                 'root_folder' => 'test/miis/abc',
-                'use_date_path' => true
+                'use_date_path' => false
             ],
             'ftp_upload' => [
                 'host'     => '13.251.192.209',
@@ -41,21 +41,23 @@ class UploadTest extends \PHPUnit\Framework\TestCase
                 'bucket' => 'xxxxxxx',
             ],
             'api_store' => [
-                'host' => 'https://core-cms.dev',
-                'secret_token' => '71ad4a6a4e9f875a07608b80327757f705b5e2fc5ad215ca6c1719736a47b59a'
+                'host' => 'https://cms-core.edupia.com.vn',
+                'secret_token' => '556db0bdd55fdb5079b0b645ae890e00847490fa16141e96a83ee12c8fe438f4'
             ],
         ];
         $file = new SplFileObject($this->join_paths(__DIR__, 'image.jpg'));
-        $fileName = 'test.jpg';
+        $fileName = 'test';
         $type = ResourceManager::TYPE_IMAGE;
         $iconFile = new SplFileObject($this->join_paths(__DIR__, 'test.tmp'));
-        $iconFileName = 'icon.jpg';
+        $iconFileName = 'icon';
 
         $resource = new UploadResource($file, $fileName, $type, $iconFile, $iconFileName);
 
         $manager = new ResourceManager($config);
 
         $result = $manager->store($resource);
+
+//        var_dump($result);
 
         $this->assertIsArray($result);
     }
