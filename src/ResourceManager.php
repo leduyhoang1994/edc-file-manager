@@ -17,13 +17,15 @@ class ResourceManager
     const TYPE_AUDIO = 'AUDIO';
     const TYPE_VIDEO_TIMESTAMP = 'VIDEO_TIMESTAMP';
     const TYPE_PDF = 'PDF';
+    const TYPE_ASSET_BUNDLE = 'ASSET_BUNDLE';
 
     const TYPE_LIST = [
         self::TYPE_VIDEO,
         self::TYPE_IMAGE,
         self::TYPE_AUDIO,
         self::TYPE_VIDEO_TIMESTAMP,
-        self::TYPE_PDF
+        self::TYPE_PDF,
+        self::TYPE_ASSET_BUNDLE
     ];
 
     const UPLOAD_METHOD_FTP = 'ftp';
