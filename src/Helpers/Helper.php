@@ -27,7 +27,6 @@ class Helper
     public static function changeToSlug($str)
     {
         $slug = self::removeUnicode($str);
-        $slug = str_replace('_', '-', $slug);
         $slug = self::removeSpecialCharacter($slug);
         $slug = str_replace(' ', '-', $slug);
         $slug = strtolower($slug);
@@ -37,7 +36,7 @@ class Helper
     public static function removeSpecialCharacter($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
 
-        return preg_replace('/[^A-Za-z0-9\-\.]/', '', $string); // Removes special chars.
+        return preg_replace('/[^A-Za-z0-9\-\._]/', '', $string); // Removes special chars.
     }
 
     public static function makeUrl($baseUrl, ...$args)
