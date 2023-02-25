@@ -50,8 +50,9 @@ class UploadTest extends \PHPUnit\Framework\TestCase
         $type = ResourceManager::TYPE_IMAGE;
         $iconFile = new SplFileObject($this->join_paths(__DIR__, 'test.tmp'));
         $iconFileName = 'icon';
+        $label_id = 19;
 
-        $resource = new UploadResource($file, $fileName, $type, $iconFile, $iconFileName);
+        $resource = new UploadResource($file, $fileName, $type, $iconFile, $iconFileName,$label_id);
 
         $manager = new ResourceManager($config);
 

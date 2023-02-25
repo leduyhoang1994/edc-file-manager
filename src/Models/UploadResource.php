@@ -19,6 +19,7 @@ class UploadResource
     protected $iconFile;
     protected $iconFileName;
     protected $iconFileType;
+    protected $label_ids;
 
     protected $filePath;
     protected $iconFilePath;
@@ -36,7 +37,7 @@ class UploadResource
      * @param $type
      * @param \SplFileObject|null|string $iconFile
      */
-    public function __construct($file, $name, $type, $iconFile = null, $iconFileName = '')
+    public function __construct($file, $name, $type, $iconFile = null, $iconFileName = '',$label_ids = null)
     {
         $this->name = $name;
         $this->fileName = $name;
@@ -48,6 +49,7 @@ class UploadResource
         $this->iconFileName = $iconFileName;
         $this->iconFileType = ResourceManager::TYPE_IMAGE;
 
+        $this->label_ids = $label_ids;
 //        $this->loadFile($file, 'file');
 //
 //        if ($iconFile) {
@@ -126,7 +128,8 @@ class UploadResource
             'icon_file_path' => $fileIcon,
             'description' => $this->description,
             'is_active' => $this->isActive,
-            'num_repeat' => $this->num_repeat
+            'num_repeat' => $this->num_repeat,
+            'label_ids' => $this->label_ids
         ];
     }
 
